@@ -14,11 +14,11 @@ Puppet::Type.newtype(:x509_cert) do
     end
   end
 
-  newparam(:private_key) do
-    desc 'The path to the private key'
+  newparam(:csr) do
+    desc 'The path to the certificate signing request'
     defaultto do
       path = Pathname.new(@resource[:path])
-      "#{path.dirname}/#{path.basename(path.extname)}.key"
+      "#{path.dirname}/#{path.basename(path.extname)}.csr"
     end
     validate do |value|
       path = Pathname.new(value)
@@ -64,10 +64,6 @@ Puppet::Type.newtype(:x509_cert) do
     desc "The authentication algorithm: 'rsa', 'dsa or ec'"
     newvalues :rsa, :dsa, :ec
     defaultto :rsa
-  end
-
-  newparam(:csr) do
-    desc 'The optional certificate signing request path'
   end
 
   newparam(:ca) do
